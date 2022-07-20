@@ -92,12 +92,12 @@ y
 
 Decreasing it by 10px to move the snake up and increasing it by 10px to move the snake down will move the snake correctly.
 
-To implement this, we have to update the move_snake method to also increase the y-coordinate of the head by dy (vertical velocity of the snake).
+To implement this, we have to update the moveSnake method to also increase the y-coordinate of the head by dy (vertical velocity of the snake).
 
         const head = {x: Ana[0].x + dx, y: Ana[0].y + dy};
 		
 ## Automatic movement
-In order to move the snake, say 50px to the right, we will have to call move_snake(x) 5 times. However, calling the method 5 times will make the snake jump to the +50px position, instead of moving step-by-step towards that point.
+In order to move the snake, say 50px to the right, we will have to call moveSnake(x) 5 times. However, calling the method 5 times will make the snake jump to the +50px position, instead of moving step-by-step towards that point.
 
 To move the snake how we want, we can add a slight delay between each call with setTimeout. We also need to make sure to call drawSnake every time we call moveAna, as shown below. If we don’t, we won’t be able to see the intermediate steps that show the snake moving.
 
@@ -118,8 +118,8 @@ To fix that, we have to wrap our code inside functions. Instead of creating an i
       setTimeout(function onTick() 
       {    
        clearCanvas();    
-       advanceSnake();  
-       drawSnake();
+       advanceAna();  
+       drawAna();
         // Call render again
         render();
         }, 100)
@@ -151,19 +151,19 @@ Let’s make the function changeDirection. This will check if the pressed key ma
              dy = 0;  
          } 
  
-     		if (keyPressed === UP_KEY && !goingDown)
+     		if (keyPressed === UPKEY && !goingDown)
      		{    
         	  dx = 0;
          	 dy = -10;
    		  }
  
-     if (keyPressed === RIGHT_KEY && !goingLeft)
+     if (keyPressed === RIGHTKEY && !goingLeft)
      {    
           dx = 10;
           dy = 0;
      }
  
-     if (keyPressed === DOWN_KEY && !goingUp)
+     if (keyPressed === DOWNKEY && !goingUp)
      {    
           dx = 0;
           dy = 10;
@@ -171,11 +171,11 @@ Let’s make the function changeDirection. This will check if the pressed key ma
 	}
 		We also need to check if the snake is moving in the opposite direction of the new, intended direction. This will prevent our snake from reversing, such as when you press the right arrow key when the snake is moving to the left.
 
-To incorporate the change_direction function, we can use the addEventListener on the document to listen for when a key is pressed; then we can call changeDirection with the keydown event.
+To incorporate the changeDirection function, we can use the addEventListener on the document to listen for when a key is pressed; then we can call changeDirection with the keydown event.
 
          document.addEventListener("keydown", changeDirection)
  ## Adding boundary condition
-To prevent our snake from moving infinitely, we need to add boundary conditions. For this, let’s make the function has_game_ended, which returns true when the game has ended and false if otherwise.
+To prevent our snake from moving infinitely, we need to add boundary conditions. For this, let’s make the function hasGameEnded, which returns true when the game has ended and false if otherwise.
 
 There are two cases in which the game can end:
 
@@ -187,7 +187,7 @@ These two conditions are incorporated in the code below:
 		{  
  		 for (let i = 4; i < Ana.length; i++)
 		  {    
-   		 const has_collided = Ana[i].x === Ana[0].x && Ana[i].y === Ana[0].y
+   		 const hasCollided = Ana[i].x === Ana[0].x && Ana[i].y === Ana[0].y
     		if (hasCollided) 
       		return true
   		}
@@ -204,8 +204,8 @@ These two conditions are incorporated in the code below:
 If it has not, there is a further check for all of the boundary walls.
 		
 		
-		##4. Incorporating food and score
-Now that we have a fully functional snake, it’s time to incorporate food and score into our game.
+		##4. Incorporating food(mashroom) and score
+Now that we have a fully functional snake, it’s time to incorporate food(mashroom) and score into our game.
 
 ####Food (mashroom)
 For the food (mashroom) that our snake will eat, we want to generate a random set of coordinates. Let’s make the function randomMashroom to randomly generate an 
@@ -243,9 +243,9 @@ If it is, then we have to generate a new food location. See the functions below:
 		}
 		
 		## Growing the snake
-The snake will grow whenever the head of the snake is at the same position as the food. Instead of adding a body part to the snake’s body every time that happens, we can skip removing a body part in the move_snake function.
+The snake will grow whenever the head of the snake is at the same position as the food. Instead of adding a body part to the snake’s body every time that happens, we can skip removing a body part in the moveAna function.
 
-See the updated version of move_snake below:
+See the updated version of moveAna below:
 
       function moveAna() {
      	 // Create the new Snake's head
@@ -267,7 +267,7 @@ See the updated version of move_snake below:
 ## Score
 Incorporating a score is actually quite simple. We need to initialize a score variable and increment it every time the snake eats the food. To display the score, we will need a new div before the canvas.
 
-We need to further update the move_snake method to incorporate the score:
+We need to further update the moveAnake method to incorporate the score:
 
 	function moveAna()
  	{

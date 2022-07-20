@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<title>Anaconda</title> 
+     
+    <script defer src="js/snake.js"></script>
+  <body background="https://imgur.com/LQb6B6R">
+<p id=p1>Press button  and eat the MASHROOM!</p>
+<button onClick="window.location.reload();">
+  Play again</button>
+		
+    <div id="score">0</div>
+    <canvas id="garden" width="500" height="500"></canvas>
+
+    <style>
+    
+      #garden {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+      }
+      #score {
+        text-align: left;
+        font-size: 60px;
+        color: red;
+        width: 600px;
+        height: 100px;
+        padding: 20px;
+      }
+      #p1 {text-align: left;
+        font-size: 20;
+        color: yellowgreen}
+    </style>
+    <audio id="background-music" preload="auto" autoplay loop>
+        <source 
+        src="https://dl.dropbox.com/s/5r3iu7kjsl0mx81/Wildfire%20Cut%20Loopable.wav"       type="audio/wav">
+  </body>
+
+  
+</html>

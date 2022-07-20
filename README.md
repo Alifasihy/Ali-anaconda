@@ -64,7 +64,7 @@ x
 -coordinate of every part of the snake by 10px (dx = +10).
 
 To make the snake move to the left, we can decrease the x-coordinate of every part of the snake by 10px (dx = -10).
->dx is the horizontal velocity of the snake. We need to create a function move_snake that will update the snake.
+>dx is the horizontal velocity of the snake. We need to create a function moveSnake(my snake is Ana) that will update the snake.
 	
 
 		

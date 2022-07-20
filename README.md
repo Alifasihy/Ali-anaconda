@@ -27,7 +27,7 @@ We will then ​make a 500 x 500 with rectangle with a black border, which will 
 ## Making the snake
 Now, for the snake! We need to specify the initial location of our snake on the canvas by representing the snake as an array of coordinates.
 
-Thus, to create a horizontal snake in the middle of the canvas, at (200, 200), we list the co-ordinate of each body part of the snake.
+Thus, to create a horizontal snake in the middle of the canvas, at (250, 250), we list the co-ordinate of each body part of the snake.
 
 The number of coordinates in the object will be equal to the length of the snake.
 		

@@ -129,8 +129,173 @@ To fix that, we have to wrap our code inside functions. Instead of creating an i
 We have a moving snake, but our next task is to make the snake change direction when one of the arrow keys is pressed.
 
 Changing Direction
-Let’s make the function change_direction. This will check if the pressed key matches one of the arrow keys. If it does, we will change the vertical and horizontal velocity. Look at the function below.
+Let’s make the function changeDirection. This will check if the pressed key matches one of the arrow keys. If it does, we will change the vertical and horizontal velocity. Look at the function below.
 		
+		
+		function changeDirection(event) 
+      {  
+        const LEFTKEY = 37;
+        const RIGHTKEY = 39;
+        const UPKEY = 38;
+        const DOWNKEY = 40;
+ 
+        const keyPressed = event.keyCode;
+        const goingUp = dy === -10;
+        const goingDown = dy === 10;
+        const goingRight = dx === 10;  
+        const goingLeft = dx === -10;
+ 
+         if (keyPressed === LEFT_KEY && !goingRight)
+         {    
+            dx = -10;
+             dy = 0;  
+         } 
+ 
+     		if (keyPressed === UP_KEY && !goingDown)
+     		{    
+        	  dx = 0;
+         	 dy = -10;
+   		  }
+ 
+     if (keyPressed === RIGHT_KEY && !goingLeft)
+     {    
+          dx = 10;
+          dy = 0;
+     }
+ 
+     if (keyPressed === DOWN_KEY && !goingUp)
+     {    
+          dx = 0;
+          dy = 10;
+     }
+	}
+		We also need to check if the snake is moving in the opposite direction of the new, intended direction. This will prevent our snake from reversing, such as when you press the right arrow key when the snake is moving to the left.
+
+To incorporate the change_direction function, we can use the addEventListener on the document to listen for when a key is pressed; then we can call changeDirection with the keydown event.
+
+         document.addEventListener("keydown", changeDirection)
+ ## Adding boundary condition
+To prevent our snake from moving infinitely, we need to add boundary conditions. For this, let’s make the function has_game_ended, which returns true when the game has ended and false if otherwise.
+
+There are two cases in which the game can end:
+
+The head of the snake collides with its body.
+The head of the snake collides with the canvas boundary.
+These two conditions are incorporated in the code below:
+		
+		function hasGameEnded()
+		{  
+ 		 for (let i = 4; i < Ana.length; i++)
+		  {    
+   		 const has_collided = Ana[i].x === Ana[0].x && Ana[i].y === Ana[0].y
+    		if (hasCollided) 
+      		return true
+  		}
+  		const hitLeftWall = Ana[0].x < 0;  
+  		const hitRightWall = Ana[0].x > Anaboard.width - 10;
+ 		 const hitToptWall = Ana[0].y &lt; 0;
+  		const hitBottomWall = Ana[0].y > Anaboard.height - 10;
+ 
+  		return hitLeftWall ||  hitRightWall || hitToptWall || hitBottomWall
+		}
+		
+		First, there is a check which looks​ to see if the head has collided with any of the body parts.
+
+If it has not, there is a further check for all of the boundary walls.
+		
+		
+		##4. Incorporating food and score
+Now that we have a fully functional snake, it’s time to incorporate food and score into our game.
+
+####Food (mashroom)
+For the food (mashroom) that our snake will eat, we want to generate a random set of coordinates. Let’s make the function randomMashroom to randomly generate an 
+x
+x
+-coordinate and a 
+y
+y
+-coordinate for the food’s positions. We also have to ensure that the food is not located where the snake currently is.
+
+If it is, then we have to generate a new food location. See the functions below:
+
+	function randomMashroom(min, max)
+	{  
+   		return Math.round((Math.random() * (max-min) + min) / 10) * 10;
+	}
+ 
+	function genMashroom() 
+{  
+   Mashroomx = randomMahroom(0, Anaboard.width - 10);
+   Mashroomy = randomMashroom(0, Anaboard.height - 10);
+   Ana.forEach(function hasSnakeEatenFood(part) {
+         const hasEaten = part.x == Mashroomx &&  Mashroomy ==  Mashroomy;
+         if (hasEaten) genMashroom();
+        });
+			}
+ We also need a function to actually draw the food on the canvas and update main to incorporate the drawFood function.
+
+	function drawFood()
+		{
+   		   ctx.fillStyle = 'lightgreen;
+    		  ctx.strokestyle = 'darkgreen';
+     	 ctx.fillRect(food_x, food_y, 10, 10);
+    	 ctx.strokeRect(food_x, food_y, 10, 10);
+		}
+		
+		## Growing the snake
+The snake will grow whenever the head of the snake is at the same position as the food. Instead of adding a body part to the snake’s body every time that happens, we can skip removing a body part in the move_snake function.
+
+See the updated version of move_snake below:
+
+      function moveAna() {
+     	 // Create the new Snake's head
+     	 const head = {x: Ana[0].x + dx, y: Ana[0].y + dy};
+      	// Add the new head to the beginning of snake body
+    	  Ana.unshift(head);
+      		const hasEatenFood = Ana[0].x === Mashroomx && Ana[0].y === Mashroomy;
+     	 if (hasEatenFood) {
+      	  // Generate new food location
+       	 genMashroom();
+     		 } else {
+       		 // Remove the last part of snake body
+       		 Ana.pop();
+     		 }
+   		 }
+		
+		
+		
+## Score
+Incorporating a score is actually quite simple. We need to initialize a score variable and increment it every time the snake eats the food. To display the score, we will need a new div before the canvas.
+
+We need to further update the move_snake method to incorporate the score:
+
+	function moveAna()
+ 	{
+     	 // Create the new Snake's head
+      	const head = {x: Ana[0].x + dx, y: Ana[0].y + dy};
+     	 // Add the new head to the beginning of snake body
+      	Ana.unshift(head);
+      const hasEatenFood = Ana[0].x === Mashroomx && Ana[0].y === Mashroomy;
+      if (hasEatenFood) {
+        // Increase score
+        score += 10;
+        // Display score on screen
+        document.getElementById('score').innerHTML = score;
+        // Generate new food location
+        genMMashroom();
+     	 } else {
+        // Remove the last part of snake body
+      	  Ana.pop();
+      		}
+		}
+		
+		
+## Play Again
+		
+		
+		<button onClick="window.location.reload();">
+               Play again</button>
+
 		
 		
 
